@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>STVD 22 VARSITY JACKET</title>
+<style>
+/* ── FONTS ── */
+@font-face { font-family:'Akira'; src:url('fonts/Akira_Expanded_Demo.otf') format('opentype'); font-display:swap; }
+@font-face { font-family:'Eulyoo'; src:url('fonts/Eulyoo1945-Regular.otf') format('opentype'); font-display:swap; }
+@font-face { font-family:'Blacklisted'; src:url('fonts/Blacklisted.ttf') format('truetype'); font-display:swap; }
+@font-face { font-family:'Pretendard'; font-weight:45 920; font-style:normal; font-display:swap; src:url('fonts/woff2/PretendardVariable.woff2') format('woff2-variations'); }
+
+/* ── RESET ── */
+*,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { background:#000; color:#ede9e3; font-family:'Pretendard',sans-serif; overflow-x:hidden; cursor:none; }
+img { display:block; }
+a { text-decoration:none; color:inherit; }
+
+/* ── CURSOR ── */
+#cur { position:fixed; z-index:9999; width:10px; height:10px; border-radius:50%; background:#ede9e3; pointer-events:none; mix-blend-mode:difference; transform:translate(-50%,-50%); transition:width .25s,height .25s,background .25s,border .25s; }
+#cur.hov { width:36px; height:36px; background:transparent; border:1px solid #ede9e3; }
+
+/* ── PROGRESS ── */
+#prog { position:fixed; top:0; left:0; height:2px; z-index:8000; background:#ede9e3; width:0%; pointer-events:none; }
+
+/* ── REVEAL ── */
+.sr { opacity:0; transform:translateY(40px); transition:opacity .9s ease,transform .9s ease; }
+.sr.d1 { transition-delay:.15s; } .sr.d2 { transition-delay:.30s; } .sr.d3 { transition-delay:.45s; }
+.sr.vis { opacity:1; transform:none; }
+
+/* ── MARQUEE ── */
+.mq { overflow:hidden; white-space:nowrap; }
+.mq-i { display:inline-flex; }
+.mq-i.fwd { animation:mqF 24s linear infinite; }
+.mq-i.rev { animation:mqR 24s linear infinite; }
+@keyframes mqF { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+@keyframes mqR { from{transform:translateX(-50%)} to{transform:translateX(0)} }
+
+/* ══ HEADER ══ */
+#hdr { position:fixed; top:0; left:0; width:100%; padding:22px 42px; display:flex; justify-content:space-between; align-items:center; z-index:1000; }
+.hdr-logo { font-size:15px; letter-spacing:.28em; color:rgba(255,255,255,.92); }
+.hdr-nav { display:flex; gap:38px; }
+.hdr-nav a { font-size:14px; letter-spacing:.24em; color:rgba(255,255,255,.34); transition:color .25s; }
+.hdr-nav a:hover,.hdr-nav a.on { color:rgba(255,255,255,.95); }
+
+/* ══ OPENING ══ */
+#opening { position:relative; width:100%; height:200vh; background:#000; }
+.opening-sticky { position:sticky; top:0; width:100%; height:100vh; overflow:hidden; background:#000; }
+.op-bg { position:absolute; inset:0; background:url("images/first.png") no-repeat center 85%/cover; transform:scale(1.03); opacity:0; z-index:1; will-change:transform,opacity,filter; filter:brightness(10) saturate(2); }
+.op-overlay { position:absolute; inset:0; z-index:2; pointer-events:none; background:linear-gradient(to bottom,rgba(0,0,0,1) 0%,rgba(0,0,0,.97) 10%,rgba(0,0,0,.88) 26%,rgba(0,0,0,.68) 50%,rgba(0,0,0,.38) 78%,rgba(0,0,0,.18) 100%); }
+.reveal-step { opacity:0; transform:translateY(70px); transition:opacity .9s ease,transform 1.15s cubic-bezier(.22,1,.36,1); will-change:opacity,transform; }
+.reveal-step.is-visible { opacity:1; transform:translateY(0); }
+.op-question { position:absolute; top:13%; left:5.5%; z-index:4; font-family:"Eulyoo",serif; font-size:clamp(26px,2.2vw,44px); line-height:1.35; letter-spacing:-0.03em; color:rgba(255,255,255,.34); }
+.op-sub { position:absolute; top:16%; right:7%; z-index:4; text-align:right; font-family:"Eulyoo",serif; font-size:clamp(28px,2.5vw,54px); letter-spacing:-0.045em; color:rgba(255,255,255,.68); }
+.sub-line { display:block; margin-bottom:8px; opacity:0; transform:translateY(56px); transition:opacity .85s ease,transform 1.05s cubic-bezier(.22,1,.36,1); will-change:opacity,transform; }
+.sub-line:last-child { margin-bottom:0; }
+.sub-line.is-visible { opacity:1; transform:translateY(0); }
+.op-power { position:absolute; left:5.5%; top:46%; width:90%; z-index:5; text-align:left; font-family:"Eulyoo",serif; font-size:clamp(52px,5vw,100px); line-height:1.18; letter-spacing:-0.06em; color:rgba(255,255,255,.97); text-shadow:0 0 12px rgba(255,255,255,.03); transform:translateY(70px); }
+.op-power.is-visible { transform:translateY(0); }
+@media(min-width:1440px) { .op-question{top:14%} .op-sub{top:17%} .op-power{top:47%} }
+
+/* ══ DESERVE BAR ══ */
+.deserve-bar { position:relative; z-index:10; border-top:1px solid rgba(237,233,227,.14); border-bottom:1px solid rgba(237,233,227,.14); padding:12px 0; overflow:hidden; background:#000; }
+.dw { font-family:'Blacklisted',sans-serif; font-size:clamp(20px,4vw,50px); padding:0 40px; letter-spacing:.06em; }
+.dw.dim { opacity:.18; }
+
+/* MODEL */
+#model-sec { position: relative; background: #fff; overflow: hidden; }
+.deserve-field { position: relative; z-index: 1; background: #e3000b; height: 52vh; overflow: hidden; display: flex; flex-direction: column; justify-content: space-around; padding: 4px 0; }
+.df-row { overflow: hidden; display: flex; align-items: center; flex: 1; }
+.df-inner { display: inline-flex; white-space: nowrap; font-family: 'Blacklisted', sans-serif; font-size: clamp(26px, 4.2vw, 66px); color: #fff; letter-spacing: .04em; line-height: 1; padding: 2px 0; }
+.df-inner.fa { animation: mqF 13s linear infinite; }
+.df-inner.ra { animation: mqR 16s linear infinite; }
+.df-inner.fb { animation: mqF 11s linear infinite; }
+.df-inner.rb { animation: mqR 14s linear infinite; }
+.df-inner.fc { animation: mqF 17s linear infinite; }
+.df-inner.rc { animation: mqR 12s linear infinite; }
+.df-inner.fd { animation: mqF 15s linear infinite; }
+.model-float { position: absolute; top: 0; left: 50%; transform: translateX(-50%); z-index: 10; height: 120vh; display: flex; align-items: flex-end; pointer-events: none; }
+.model-float img { height: 100%; width: auto; object-fit: contain; object-position: bottom center; display: block; }
+.model-white-base { position: relative; z-index: 2; height: 64vh; background: #fff; }
+.model-name-row { position: relative; width: 100%; height: 100%; font-family: 'Pretendard', sans-serif; font-weight: 900; font-size: clamp(18px, 3.8vw, 52px); letter-spacing: .10em; }
+.name-left,.name-right { position: absolute; line-height: 1; }
+.name-left { left: clamp(24px, 5vw, 60px); bottom: clamp(24px, 3.5vh, 44px); color: #000; }
+.name-right { right: clamp(24px, 5vw, 60px); bottom: clamp(24px, 3.5vh, 44px); color: #000; }
+.model-center-word { position: absolute; left: 50%; top: 94.5%; transform: translate(-50%, -50%); z-index: 30; color: #fff; font-family: 'Pretendard', sans-serif; font-weight: 900; font-size: clamp(18px, 3.8vw, 52px); letter-spacing: .10em; line-height: 1; pointer-events: none; }
+
+/* FOSSIL */
+#fossil { position:relative; height:220vh; background:#000; }
+.fossil-sticky { position:sticky; top:0; width:100%; height:100vh; overflow:hidden; background:#000; }
+.fossil-bg { position:absolute; inset:0; background:url("images/fossil.png") center center/cover no-repeat; opacity:0; transform:scale(1.04); filter:brightness(0.52) saturate(0.75); will-change:opacity,transform,filter; z-index:1; }
+.fossil-overlay { position:absolute; inset:0; z-index:2; background:linear-gradient(to bottom,rgba(0,0,0,.88) 0%,rgba(0,0,0,.62) 22%,rgba(0,0,0,.52) 46%,rgba(0,0,0,.68) 72%,rgba(0,0,0,.90) 100%); }
+.fossil-word-wrap { position:absolute; inset:0; z-index:3; pointer-events:none; }
+.fossil-word-outline,.fossil-word-fill { position:absolute; top:8%; left:50%; transform:translateX(-50%); font-family:'Pretendard',sans-serif; font-weight:900; font-size:clamp(140px,26vw,430px); line-height:.85; letter-spacing:-0.04em; white-space:nowrap; }
+.fossil-word-outline { color:transparent; -webkit-text-stroke:2px rgba(255,255,255,.18); opacity:0; }
+.fossil-word-fill { color:transparent; -webkit-text-fill-color:transparent; background-image:url("images/fossil.png"); background-size:cover; background-position:center; background-repeat:no-repeat; -webkit-background-clip:text; background-clip:text; opacity:0; filter:brightness(1.02) contrast(1.03); }
+.fossil-content { position:absolute; left:50%; bottom:7%; transform:translateX(-50%); z-index:4; width:min(1120px,86vw); text-align:center; color:#fff; }
+.fossil-body { font-family:'Pretendard',sans-serif; font-size:clamp(16px,1.6vw,20px); line-height:1.7; font-weight:400; color:rgba(255,255,255,.92); }
+.fossil-body p+p { margin-top:10px; }
+.fossil-body-mid { margin-top:54px; }
+.fossil-strong { margin-top:70px; font-family:'Pretendard',sans-serif; font-size:clamp(22px,2.4vw,40px); line-height:1.35; font-weight:800; color:#fff; }
+
+/* HERITAGE */
+#heritage { background: #000; overflow: hidden; position: relative; }
+.heritage-bar-outer { position: relative; overflow: hidden; height: 190px; margin-top: 20px; background: #000; }
+.heritage-bar-inner { position: absolute; top: 50%; left: -8%; width: 116%; transform: translateY(-50%) rotate(-3.5deg); transform-origin: center center; background: #000; border-top: 1px solid rgba(255,255,255,.08); border-bottom: 1px solid rgba(255,255,255,.08); padding: 26px 0; overflow: hidden; white-space: nowrap; }
+.heritage-bar-inner .mq { overflow: hidden; white-space: nowrap; line-height: 1; }
+.heritage-bar-inner .mq-i { display: inline-flex; align-items: center; }
+.hbar-text { display: inline-block; font-family: 'Pretendard', sans-serif; font-weight: 900; font-size: clamp(72px, 10vw, 150px); line-height: 0.9; color: #fff; letter-spacing: .04em; padding: 0 56px; white-space: nowrap; }
+.h-news-top-wrap { position: relative; z-index: 5; width: 100%; overflow: hidden; margin: -60px 0 -350px; line-height: 0; pointer-events: none; }
+.h-news-top { display: block; width: 110%; margin-left: -5%; transform: rotate(-3.5deg); transform-origin: center center; mix-blend-mode: luminosity; opacity: .88; }
+.gallery-wrap { position: relative; z-index: 2; padding: 0; background: #000; margin: 0 0 -270px; }
+.gallery-track { display: flex; gap: 0; padding: 0; overflow-x: scroll; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; scrollbar-width: none; cursor: grab; }
+.gallery-track::-webkit-scrollbar { display: none; }
+.gallery-track:active { cursor: grabbing; }
+.g-item { flex: 0 0 90vw; height: clamp(1000px, 100vw, 900px); overflow: hidden; position: relative; }
+.g-item img { width: 118%; height: 118%; object-fit: cover; object-position: center center; transform: translate(-7.6%, -7.6%); filter: grayscale(100%) brightness(.78); transition: filter .5s, transform .5s; }
+.g-item:hover img { filter: grayscale(0%) brightness(1); transform: translate(-7.6%, -7.6%) scale(1.04); }
+.h-news-bot-wrap { position: relative; z-index: 3; width: 100%; overflow: hidden; line-height: 0; margin-top: 0; pointer-events: none; }
+.h-news-bot { display: block; width: 110%; margin-left: -5%; mix-blend-mode: luminosity; opacity: .82; }
+.heritage-body-wrap { position: relative; overflow: hidden; padding: 140px 50px 200px; min-height: 800px; }
+.heritage-body-bg { position: absolute; inset: 0; background: url('images/news3.png') center/cover no-repeat; opacity: .75; mix-blend-mode: luminosity; }
+.heritage-body-dim { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,.96) 0%, rgba(0,0,0,.82) 30%, rgba(0,0,0,.68) 60%, rgba(0,0,0,.88) 100%); }
+.heritage-body-content { position: relative; z-index: 2; display: grid; grid-template-columns: 1fr 1.2fr; gap: 72px; align-items: start; }
+.heritage-eyebrow { font-size: 11px; letter-spacing: .42em; opacity: .36; margin-bottom: 18px; font-weight: 300; color: #ede9e3; }
+.heritage-h3 { font-size: clamp(50px, 10vw, 100px); font-weight: 800; line-height: 1.45; color: #fff; }
+.heritage-p { font-size: clamp(13px, 8vw, 27px); font-weight: 300; line-height: 2.4; opacity: .75; color: #ede9e3; padding-top: 4px; }
+.power-bar-outer { position: relative; overflow: hidden; height: 100px; background: #000; }
+.power-bar-inner { position: absolute; top: 50%; left: -5%; width: 110%; transform: translateY(-50%) rotate(3.5deg); background: #000; border-top: 1px solid rgba(255,255,255,.08); border-bottom: 1px solid rgba(255,255,255,.08); padding: 10px 0; overflow: hidden; white-space: nowrap; }
+.pbar-text { font-family: 'Pretendard', sans-serif; font-weight: 900; font-size: clamp(52px, 9vw, 130px); color: #fff; letter-spacing: .06em; padding: 0 48px; white-space: nowrap; }
+
+/* POWER */
+#power { background:#000; overflow:hidden; }
+.throne-wrap { position:relative; height:100vh; overflow:hidden; }
+.throne-img { width:100%; height:100%; object-fit:cover; object-position:top center; opacity:.82; will-change:transform; }
+.throne-fade { position:absolute; inset:0; background:linear-gradient(to bottom,#000 0%,transparent 20%,transparent 55%,#000 100%); }
+.power-mq-bar { position:absolute; bottom:0; left:0; right:0; overflow:hidden; padding-bottom:4px; }
+.power-mq-t { font-family:'Pretendard'; font-size:clamp(72px,16vw,230px); font-weight:900; color:transparent; -webkit-text-stroke:1px rgba(237,233,227,.16); white-space:nowrap; letter-spacing:.04em; padding:0 40px; }
+.power-content { display:grid; grid-template-columns:1fr 1fr; gap:80px; padding:100px 80px; align-items:center; }
+.power-h3 { font-size:28px; font-weight:700; line-height:1.6; margin-bottom:30px; }
+.power-p { font-size:15px; font-weight:300; line-height:2.3; opacity:.65; }
+.power-bowing { width:100%; height:560px; object-fit:cover; object-position:top; filter:brightness(.85); }
+.model-grid { display:grid; grid-template-columns:repeat(4,1fr); height:62vh; }
+.mg-item { overflow:hidden; position:relative; }
+.mg-item::after { content:''; position:absolute; inset:0; background:rgba(0,0,0,.18); transition:background .4s; }
+.mg-item:hover::after { background:rgba(0,0,0,0); }
+.mg-item img { width:100%; height:100%; object-fit:cover; filter:grayscale(15%) brightness(.9); transition:transform .7s,filter .5s; }
+.mg-item:hover img { transform:scale(1.06); filter:grayscale(0%) brightness(1); }
+
+/* REVIEW */
+#review { position:relative; overflow:hidden; background:#000; }
+.review-noise { position:absolute; inset:0; background:url('images/noise.png') center/cover; opacity:.28; pointer-events:none; }
+.review-mq-t { font-family:'Pretendard'; font-size:clamp(64px,14vw,200px); font-weight:900; color:transparent; -webkit-text-stroke:1px rgba(237,233,227,.1); white-space:nowrap; letter-spacing:.04em; padding:80px 40px 0; }
+.review-grid { position:relative; z-index:1; display:grid; grid-template-columns:1fr 1fr; gap:2px; background:rgba(237,233,227,.06); margin:60px 0; }
+.rv-text { padding:72px 64px; background:#040404; }
+.rv-qm { font-family:'Eulyoo'; font-size:72px; opacity:.08; line-height:1; margin-bottom:-14px; }
+.rv-q { font-family:'Eulyoo'; font-size:18px; line-height:2.3; opacity:.85; }
+.rv-img { overflow:hidden; position:relative; min-height:420px; }
+.rv-img img { width:100%; height:100%; object-fit:cover; object-position:top; transition:transform .6s; }
+.rv-img:hover img { transform:scale(1.04); }
+.rv-mt { position:relative; overflow:hidden; }
+.rv-mt-bg { position:absolute; inset:0; background:url('images/mt.png') center/cover; filter:brightness(.3) saturate(.4); }
+.rv-mt-t { position:relative; z-index:1; font-family:'Eulyoo'; font-size:18px; line-height:2.3; opacity:.9; padding:72px 64px; }
+.rv-skel { grid-column:span 2; overflow:hidden; height:50vh; }
+.rv-skel img { width:100%; height:100%; object-fit:cover; object-position:center; transition:transform .8s; }
+.rv-skel:hover img { transform:scale(1.03); }
+
+/* FOOTER */
+footer { border-top:1px solid rgba(237,233,227,.08); padding:80px; display:flex; justify-content:space-between; align-items:flex-end; }
+.ft-logo { font-family:'Akira'; font-size:clamp(28px,5vw,52px); letter-spacing:.12em; opacity:.1; }
+.ft-meta { text-align:right; font-size:11px; font-weight:300; letter-spacing:.3em; opacity:.22; line-height:2.2; }
+
+/* V-LABEL */
+.vlabel { position:absolute; right:28px; top:50%; transform:translateY(-50%) rotate(90deg); font-size:9px; letter-spacing:.5em; text-transform:uppercase; opacity:.14; pointer-events:none; user-select:none; white-space:nowrap; }
+.eyebrow { font-size:11px; letter-spacing:.4em; opacity:.3; margin-bottom:20px; font-weight:300; }
+</style>
+</head>
+<body>
+<div id="cur"></div>
+<div id="prog"></div>
+
+<header id="hdr">
+  <span class="hdr-logo">STVD 22</span>
+  <nav class="hdr-nav">
+    <a href="#fossil" data-s="fossil">ABOUT</a>
+    <a href="#heritage" data-s="heritage">HERITAGE</a>
+    <a href="#power" data-s="power">POWER</a>
+    <a href="#review" data-s="review">REVIEW</a>
+  </nav>
+</header>
+
+<section id="opening">
+  <div class="opening-sticky">
+    <div class="op-bg"></div>
+    <div class="op-overlay"></div>
+    <p class="op-question reveal-step step-1">그대는 자격이 있는가?</p>
+    <div class="op-sub">
+      <span class="sub-line sub-1">선조들의 얼이 담긴</span>
+      <span class="sub-line sub-2">한 세대의 혼이 서린</span>
+      <span class="sub-line sub-3">영광의 파편을 아로새긴</span>
+    </div>
+    <h1 class="op-power reveal-step step-3">권능을 손에 넣을 자격이.</h1>
+  </div>
+</section>
+
+<section id="model-sec">
+  <div class="deserve-field">
+    <div class="df-row"><div class="df-inner fa">DO YOU DESERVE IT?&ensp;&ensp;DO YOU DESERVE IT?&ensp;&ensp;DO YOU DESERVE IT?&ensp;&ensp;DO YOU DESERVE IT?&ensp;&ensp;DO YOU DESERVE IT?&ensp;&ensp;DO YOU DESERVE IT?&ensp;&ensp;</div></div>
+    <div class="df-row"><div class="df-inner ra">DO YOU DESERVE IT?&ensp;&ensp;DO YOU DESERVE IT?&ensp;&ensp;DO YOU DESERVE IT?&ensp;&ensp;DO YOU DESERVE IT?&ensp;&ensp;DO YOU DESERVE IT?&ensp;&ensp;DO YOU DESERVE IT?&ensp;&ensp;</div></div>
+    <div class="df-row"><div class="df-inner fb">DO YOU DESERVE IT?&ensp;&ensp;DO YOU DESERVE IT?&ensp;&ensp;DO YOU DESERVE IT?&ensp;&ensp;DO YOU DESERVE IT?&ensp;&ensp;DO YOU DESERVE IT?&ensp;&ensp;DO YOU DESERVE IT?&ensp;&ensp;</div></div>
+    <div class="df-row"><div class="df-inner rb">DO YOU DESERVE IT?&ensp;&ensp;DO YOU DESERVE IT?&ensp;&ensp;DO YOU DESERVE IT?&ensp;&ensp;DO YOU DESERVE IT?&ensp;&ensp;DO YOU DESERVE IT?&ensp;&ensp;DO YOU DESERVE IT?&ensp;&ensp;</div></div>
+    <div class="df-row"><div class="df-inner fc">DO YOU DESERVE IT?&ensp;&ensp;DO YOU DESERVE IT?&ensp;&ensp;DO YOU DESERVE IT?&ensp;&ensp;DO YOU DESERVE IT?&ensp;&ensp;DO YOU DESERVE IT?&ensp;&ensp;DO YOU DESERVE IT?&ensp;&ensp;</div></div>
+    <div class="df-row"><div class="df-inner rc">DO YOU DESERVE IT?&ensp;&ensp;DO YOU DESERVE IT?&ensp;&ensp;DO YOU DESERVE IT?&ensp;&ensp;DO YOU DESERVE IT?&ensp;&ensp;DO YOU DESERVE IT?&ensp;&ensp;DO YOU DESERVE IT?&ensp;&ensp;</div></div>
+    <div class="df-row"><div class="df-inner fd">DO YOU DESERVE IT?&ensp;&ensp;DO YOU DESERVE IT?&ensp;&ensp;DO YOU DESERVE IT?&ensp;&ensp;DO YOU DESERVE IT?&ensp;&ensp;DO YOU DESERVE IT?&ensp;&ensp;DO YOU DESERVE IT?&ensp;&ensp;</div></div>
+  </div>
+  <div class="model-float">
+    <img src="images/model.png" alt="STVD 22 Varsity Jacket">
+  </div>
+  <div class="model-center-word">VARSITY</div>
+  <div class="model-white-base">
+    <div class="model-name-row">
+      <span class="name-left">STVD 22</span>
+      <span class="name-right">JACKET</span>
+    </div>
+  </div>
+</section>
+
+<section id="fossil" data-sec="fossil">
+  <div class="fossil-sticky">
+    <div class="fossil-bg" id="js-fossil-bg"></div>
+    <div class="fossil-overlay"></div>
+    <div class="fossil-word-wrap">
+      <div class="fossil-word-outline">FOSSIL</div>
+      <div class="fossil-word-fill" id="js-fossil-fill">FOSSIL</div>
+    </div>
+    <div class="fossil-content">
+      <div class="fossil-body fossil-body-top">
+        <p>억겁의 세월 속에 군림했던 무수한 시대들은</p>
+        <p>예외없이 운명의 순리에 따라 종말을 고했습니다.</p>
+      </div>
+      <div class="fossil-body fossil-body-mid">
+        <p>그러나 그들이 남긴 파편들은 화석으로 남아 후대의 존재들에게</p>
+        <p>때로는 호기심을, 때로는 두려움을 불러일으키며 그 명맥을 이어왔습니다.</p>
+      </div>
+      <p class="fossil-strong">지금 이 순간, 화석으로 잠든 시대의 영광이 태동합니다</p>
+    </div>
+    <span class="vlabel">FOSSIL</span>
+  </div>
+</section>
+
+<section id="heritage" data-sec="heritage">
+  <div class="heritage-bar-outer">
+    <div class="heritage-bar-inner">
+      <div class="mq">
+        <div class="mq-i fwd">
+          <span class="hbar-text">TAGE&emsp;HERITAGE&emsp;HERITAGE&emsp;HERITAGE&emsp;HERITAGE&emsp;HERITAGE&emsp;</span>
+          <span class="hbar-text">TAGE&emsp;HERITAGE&emsp;HERITAGE&emsp;HERITAGE&emsp;HERITAGE&emsp;HERITAGE&emsp;</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="h-news-top-wrap">
+    <img src="images/news1.png" class="h-news-top sr" alt="heritage newspaper top">
+  </div>
+
+  <div class="gallery-wrap">
+    <div class="gallery-track" id="js-gallery">
+      <div class="g-item"><img src="images/chosen.png" alt="chosen"></div>
+      <div class="g-item"><img src="images/mil.png" alt="military"></div>
+      <div class="g-item"><img src="images/pol.png" alt="political"></div>
+      <div class="g-item"><img src="images/vic.png" alt="victory"></div>
+      <div class="g-item"><img src="images/olympic.png" alt="olympic"></div>
+      <div class="g-item"><img src="images/imf.png" alt="imf"></div>
+    </div>
+  </div>
+
+  <div class="h-news-bot-wrap">
+    <img src="images/news2.png" class="h-news-bot sr" alt="heritage newspaper bottom">
+  </div>
+
+  <div class="heritage-body-wrap sr">
+    <div class="heritage-body-bg"></div>
+    <div class="heritage-body-dim"></div>
+    <div class="heritage-body-content">
+      <div>
+        <p class="heritage-eyebrow">HERITAGE</p>
+        <h3 class="heritage-h3">살아 숨쉬는<br>역사의 증표</h3>
+      </div>
+      <div>
+        <p class="heritage-p">
+          22학번 선조들의 열정과 혼이 담긴 디자인을 고이 간직한 제품으로,<br>
+          당시 그들이 이룩한 찬란한 왕조의 숨결을 느낄 수 있습니다.<br><br>
+          고대의 현인들이 직접 제작한 이 자켓은 현대를 살아가는 당신에게<br>
+          그 어떤 조언보다 슬기로운 길잡이가 되어 줄 것입니다.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="power-bar-outer">
+    <div class="power-bar-inner">
+      <div class="mq">
+        <div class="mq-i rev">
+          <span class="pbar-text">OWER&emsp;POWER&emsp;POWER&emsp;POWER&emsp;POWER&emsp;POWER&emsp;POWER&emsp;</span>
+          <span class="pbar-text">OWER&emsp;POWER&emsp;POWER&emsp;POWER&emsp;POWER&emsp;POWER&emsp;POWER&emsp;</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <span class="vlabel">HERITAGE</span>
+</section>
+
+<section id="power" data-sec="power">
+  <div class="throne-wrap">
+    <img src="images/throne.png" class="throne-img" id="js-throne" alt="throne">
+    <div class="throne-fade"></div>
+    <div class="power-mq-bar">
+      <div class="mq">
+        <div class="mq-i fwd">
+          <span class="power-mq-t">POWER&emsp;POWER&emsp;POWER&emsp;POWER&emsp;POWER&emsp;POWER&emsp;</span>
+          <span class="power-mq-t">POWER&emsp;POWER&emsp;POWER&emsp;POWER&emsp;POWER&emsp;POWER&emsp;</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="power-content">
+    <div>
+      <p class="eyebrow sr">POWER</p>
+      <h3 class="power-h3 sr d1">세월이 쌓아올린<br>압도적 권능</h3>
+      <p class="power-p sr d2">
+        헤아릴 수 없는 세월을 보낸 자만이 손에 넣을 수 있는<br>
+        궁극의 힘과 명예를 손에 넣을 수 있습니다.<br><br>
+        학교에서 마주치는 모든 생명체들은 당신에게<br>
+        무한한 두려움과 경외를 표하며 복종하게 될 것입니다.
+      </p>
+    </div>
+    <div class="sr d1">
+      <img src="images/power.png" class="power-bowing" alt="bowing">
+    </div>
+  </div>
+  <div class="model-grid">
+    <div class="mg-item"><img src="images/m1.png" alt="model 1"></div>
+    <div class="mg-item"><img src="images/m2.png" alt="model 2"></div>
+    <div class="mg-item"><img src="images/m3.png" alt="model 3"></div>
+    <div class="mg-item"><img src="images/m4.png" alt="model 4"></div>
+  </div>
+  <span class="vlabel">POWER</span>
+</section>
+
+<section id="review" data-sec="review">
+  <div class="review-noise"></div>
+  <div class="mq">
+    <div class="mq-i fwd">
+      <span class="review-mq-t">REAL REVIEW&emsp;REAL REVIEW&emsp;REAL REVIEW&emsp;</span>
+      <span class="review-mq-t">REAL REVIEW&emsp;REAL REVIEW&emsp;REAL REVIEW&emsp;</span>
+    </div>
+  </div>
+  <div class="review-grid">
+    <div class="rv-text sr">
+      <div class="rv-qm">"</div>
+      <p class="rv-q">
+        이 자켓을 입으면 특히 여자 후배들이 아주 깍듯하게 대해주더군요!<br><br>
+        어찌나 깍듯해지던지, 커피 한 잔 사주려고 불러도 고개를 박은 채로
+        뒤도 안보고 도망가더라고요. 효과가 정말 대단합니다!
+      </p>
+    </div>
+    <div class="rv-img sr d1"><img src="images/rev1.png" alt="인사"></div>
+    <div class="rv-img sr" style="background:#000;"><img src="images/solo.png" alt="solo" style="object-position:center top;"></div>
+    <div class="rv-mt sr d1">
+      <div class="rv-mt-bg"></div>
+      <p class="rv-mt-t">
+        이 자켓을 입고 MT를 가니,<br>모두가 절 귀하게 대접하는 게 느껴집니다.<br><br>
+        절 위한 테이블도 따로 만들어주고,
+        피곤할까봐 얼른 들어가서 잠을 청하라고 권하는 모습을 보며
+        이 자켓의 위력을 실감하고 있습니다.
+      </p>
+    </div>
+    <div class="rv-skel sr"><img src="images/skel.png" alt="skeleton jacket"></div>
+  </div>
+  <span class="vlabel">REVIEW</span>
+</section>
+
+<footer>
+  <p class="ft-logo">STVD 22</p>
+  <div class="ft-meta">
+    <p>VARSITY JACKET</p>
+    <p>FUTURE CREATING DESIGNERS</p>
+    <p>SEOUL NATIONAL UNIV. OF SCIENCE &amp; TECHNOLOGY</p>
+    <p>DEPT. OF VISUAL COMMUNICATION DESIGN · 2022</p>
+  </div>
+</footer>
+
+<script>
+const cur = document.getElementById('cur');
+let mx=0,my=0,cx=0,cy=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+(function lc(){cx+=(mx-cx)*.16;cy+=(my-cy)*.16;cur.style.left=cx+'px';cur.style.top=cy+'px';requestAnimationFrame(lc);})();
+document.querySelectorAll('a,button,.g-item,.mg-item').forEach(el=>{
+  el.addEventListener('mouseenter',()=>cur.classList.add('hov'));
+  el.addEventListener('mouseleave',()=>cur.classList.remove('hov'));
+});
+
+const prog=document.getElementById('prog');
+window.addEventListener('scroll',()=>{prog.style.width=(window.scrollY/(document.body.scrollHeight-innerHeight)*100)+'%';},{passive:true});
+
+const fossilBg=document.getElementById('js-fossil-bg');
+const fossilFill=document.getElementById('js-fossil-fill');
+const fossilOutline=document.querySelector('.fossil-word-outline');
+const fossilSec=document.getElementById('fossil');
+const throne=document.getElementById('js-throne');
+const powerSec=document.getElementById('power');
+
+function updateScrollScenes(){
+  const sy=window.scrollY;
+  if(throne&&powerSec){const off=sy-powerSec.offsetTop;throne.style.transform=`translateY(${off*.12}px)`;}
+  if(fossilBg&&fossilFill&&fossilOutline&&fossilSec){
+    const rect=fossilSec.getBoundingClientRect();
+    const total=fossilSec.offsetHeight-window.innerHeight;
+    let p=Math.max(0,Math.min(1,-rect.top/total));
+    const bgOpacity=Math.max(0,Math.min(1,(p-.08)/.25));
+    fossilBg.style.opacity=bgOpacity.toFixed(3);
+    fossilBg.style.transform=`scale(${1.04+p*.02})`;
+    fossilBg.style.filter=`brightness(${.52-p*.06}) saturate(0.75)`;
+    const wo=Math.max(0,Math.min(1,(p-.18)/.22));
+    fossilOutline.style.opacity=wo.toFixed(3);
+    fossilFill.style.opacity=wo.toFixed(3);
+    fossilFill.style.backgroundPosition=`center ${50+p*12}%`;
+  }
+}
+window.addEventListener('scroll',updateScrollScenes,{passive:true});
+window.addEventListener('resize',updateScrollScenes);
+
+const ro=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');ro.unobserve(e.target);}});},{threshold:.12});
+document.querySelectorAll('.sr').forEach(el=>ro.observe(el));
+
+const navAs=document.querySelectorAll('.hdr-nav a');
+const ho=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){const id=e.target.getAttribute('data-sec');navAs.forEach(a=>a.classList.toggle('on',a.getAttribute('data-s')===id));}});},{threshold:.3});
+document.querySelectorAll('[data-sec]').forEach(s=>ho.observe(s));
+
+navAs.forEach(a=>{a.addEventListener('click',e=>{e.preventDefault();document.querySelector(a.getAttribute('href'))?.scrollIntoView({behavior:'smooth'});});});
+
+const gt=document.getElementById('js-gallery');
+if(gt){
+  let isDown=false,startX=0,sl=0;
+  gt.addEventListener('mousedown',e=>{isDown=true;startX=e.pageX-gt.offsetLeft;sl=gt.scrollLeft;});
+  document.addEventListener('mouseup',()=>{isDown=false;});
+  gt.addEventListener('mousemove',e=>{if(!isDown)return;e.preventDefault();gt.scrollLeft=sl-(e.pageX-gt.offsetLeft-startX)*1.6;});
+  let drift=true,dp=0;
+  gt.addEventListener('mouseenter',()=>drift=false);
+  gt.addEventListener('mouseleave',()=>drift=true);
+  (function dl(){if(drift){dp+=.55;if(dp>=gt.scrollWidth/2)dp=0;gt.scrollLeft=dp;}requestAnimationFrame(dl);})();
+}
+
+const opening=document.getElementById('opening');
+const opBg=document.querySelector('.op-bg');
+const step1=document.querySelector('.step-1'),step3=document.querySelector('.step-3');
+const sub1=document.querySelector('.sub-1'),sub2=document.querySelector('.sub-2'),sub3=document.querySelector('.sub-3');
+function clamp(v,mn,mx){return Math.min(Math.max(v,mn),mx);}
+function updateOpening(){
+  if(!opening||!opBg)return;
+  const rect=opening.getBoundingClientRect();
+  const total=opening.offsetHeight-window.innerHeight;
+  let p=clamp(-rect.top/total,0,1);
+  opBg.style.opacity=clamp((p-.00)/.12,0,1).toFixed(3);
+  opBg.style.transform=`scale(${1.03-p*.01})`;
+  opBg.style.filter=`brightness(${.42+p*.18}) saturate(0.95)`;
+  step1?.classList.toggle('is-visible',p>.02);
+  sub1?.classList.toggle('is-visible',p>.10);
+  sub2?.classList.toggle('is-visible',p>.16);
+  sub3?.classList.toggle('is-visible',p>.22);
+  step3?.classList.toggle('is-visible',p>.28);
+}
+window.addEventListener('scroll',updateOpening,{passive:true});
+window.addEventListener('resize',updateOpening);
+window.addEventListener('load',()=>{updateOpening();updateScrollScenes();});
+updateOpening();
+updateScrollScenes();
+</script>
+</body>
+</html>
